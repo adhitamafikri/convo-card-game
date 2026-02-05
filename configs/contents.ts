@@ -1,0 +1,620 @@
+export type GameTheme = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+};
+
+export type GameThemes = Record<
+  "family" | "friends" | "boyfriendGirlfriend",
+  GameTheme
+>;
+
+export const gameThemes: GameThemes = {
+  family: {
+    id: "gt-01",
+    name: "Keluarga",
+    slug: "keluarga",
+    description: "Membangun koneksi lebih dalam dengan keluarga tercinta melalui percakapan bermakna",
+  },
+  friends: {
+    id: "gt-02",
+    name: "Sahabat",
+    slug: "sahabat",
+    description: "Mengungkap sisi tersembunyi dari persahabatan dan mempererat tali persaudaraan",
+  },
+  boyfriendGirlfriend: {
+    id: "gt-03",
+    name: "Pasangan",
+    slug: "pasangan",
+    description: "Memperdalam ikatan dan memahami lebih dalam antara dua hati",
+  },
+};
+
+export type GameCardContent = {
+  id: string;
+  content: string;
+  isOpening: boolean;
+  isClosing: boolean;
+};
+
+export type GameCardContents = Record<
+  "family" | "friends" | "boyfriendGirlfriend",
+  GameCardContent[]
+>;
+
+export const gameCardContents: GameCardContents = {
+  family: [
+    // Opening Card
+    {
+      id: "crd-001-family",
+      content: "HALO KELUARGA! Sebelum kita memulai, ada beberapa aturan penting: 1) Jawab dengan jujur, tapi jangan memaksa dirimu untuk menjawab jika merasa tidak nyaman. 2) Dengarkan orang lain dengan penuh perhatian. 3) Yang dikatakan di meja ini, tetap di meja ini. 4) Nikmati setiap momen bersama! Klik 'Mulai' untuk memulai perjalanan kita.",
+      isOpening: true,
+      isClosing: false,
+    },
+    // Convo Cards (28 cards)
+    {
+      id: "crd-002-family",
+      content: "Siapa di antara kita yang paling sering lupa makan?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-003-family",
+      content: "Kalau bisa pilih satu anggota keluarga untuk jadi roommate siapa nih?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-004-family",
+      content: "Makanan khas keluarga kita yang paling kalian rinduin saat jauh dari rumah apa?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-005-family",
+      content: "Anggota keluarga mana yang paling cocok jadi selebriti? Alasannya?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-006-family",
+      content: "Ceritin pengalaman paling embarrassing waktu kumpul keluarga yang nggak bisa dilupain!",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-007-family",
+      content: "Kalau tiba-tiba dapat uang 1 Milyar, anggota keluarga mana yang akan kamu hubungi pertama?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-008-family",
+      content: "Quotes atau nasihat dari orang tua yang awalnya dianggap annoying, tapi ternyata bener?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-009-family",
+      content: "Siapa nih yang pernah kena semprot ortu gara-gara habisin kuota internet?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-010-family",
+      content: "Game atau hobi apa yang kalian pernah cobain gara-gara liat kakak atau adik atau nenek?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-011-family",
+      content: "Sekarang kita lagi di pulau terpencil, bawa 3 makanan ajaib dari rumah masing-masing, apa itu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-012-family",
+      content: "Nama panggilan sayang yang pernah dikasih ortu yang bikin malu kalau denger orang lain?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-013-family",
+      content: "Tokoh anime atau film Disney mana yang paling mirip sama karakteristik keluarga kita?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-014-family",
+      content: "Rencana rahasia keluarga yang belum pernah diceritain ke siapapun: Kemana kita bakal vacation kalo udah pensiun nanti?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-015-family",
+      content: "Siapa anggota keluarga yang kalau chatting itu paling sering kependekan kayak Lagi OTW, Yg, Hbd?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-016-family",
+      content: "Momen waktu kecil yang pengen kamu alami lagi karena serunya luar biasa.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-017-family",
+      content: "Tokoh historis mana yang cocok jadi tambahan anggota keluarga kita?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-018-family",
+      content: "Dulu pernah nggak percaya diri gara-gara dibandingin sama anak tetangga yang 'pintar'?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-019-family",
+      content: "Lagu dangdut atau campursari favorit keluarga yang auto nyanyi waktu di mobil atau di rumah?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-020-family",
+      content: "Superpower apa yang pengen kamu kasih ke anggota keluarga biar hidupnya lebih mudah?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-021-family",
+      content: "Cerita horror atau misterius dari keluarga yang sampai sekarang masih bikin bulu kuduk berdiri.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-022-family",
+      content: "Pilih satu: Makan bareng keluarga tapi harus absen kerja atau kuliah, atau kerja atau kuliah tapi dapat THR 50 juta?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-023-family",
+      content: "Rahasia kecil yang pernah kamu sembunyiin dari ortu tapi sekarang boleh diceritain di sini.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-024-family",
+      content: "Waktu kecil, kamu pernah ngira ortu itu kerjaannya apa sebelum tau kenyataan yang sebenarnya?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-025-family",
+      content: "Ide bisnis atau proyek konyol yang pernah kamu pikirin bareng keluarga waktu rame-rame.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-026-family",
+      content: "Siapa nih yang ortunya paling sering komentar 'Besok kamu harus...' tapi nggak pernah terjadi?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-027-family",
+      content: "Film atau series favorit keluarga yang sudah ditonton berkali-kali sampai hafal dialognya.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-028-family",
+      content: "Satu hal yang ingin kamu ucapin ke anggota keluarga tapi belum pernah terucap sampai sekarang.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-029-family",
+      content: "Buat scale 1-10, seberapa dramakah keluarga kita dibandingin sinetron di TV?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-030-family",
+      content: "Momen terharu bersama keluarga yang bikin mata berair tapi seneng sekaligus.",
+      isOpening: false,
+      isClosing: false,
+    },
+    // Closing Card
+    {
+      id: "crd-031-family",
+      content: "Terima kasih sudah berpartisipasi dalam Obrolan Keluarga hari ini! Ingatlah bahwa keluarga adalah tempat kita pulang. Tidak ada kata terlambat untuk memperbaiki hubungan, dan tidak ada kata yang lebih indah dari 'Aku menyayangimu'. Semoga cinta dan kebahagiaan selalu menyertai keluarga kita. SAMPAI JUMPA DI OBROLAN SELANJUTNYA!",
+      isOpening: false,
+      isClosing: true,
+    },
+  ],
+  friends: [
+    // Opening Card
+    {
+      id: "crd-001-friends",
+      content: "HALO SAHABAT! Sebelum kita mulai petualangan kali ini, ada beberapa aturan main: 1) Jagalah rahasia satu sama lain. 2) Tidak ada judgment di sini. 3) Healthy debate boleh, pertengkaran不可以. 4) Yang paling penting: NIKMATI INI! Klik 'Mulai' untuk memulai!",
+      isOpening: true,
+      isClosing: false,
+    },
+    // Convo Cards (28 cards)
+    {
+      id: "crd-002-friends",
+      content: "Siapa nih yang pernah ghosting grup gara-gara takut ditagih tagihan?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-003-friends",
+      content: "Pilih satu: Liburan bareng tapi harus tidur sekamar, atau nggak jadi pergi sama sekali?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-004-friends",
+      content: "Kapan terakhir kali kamu cry karena nonton film, tapi pura-pura nggak cry biar nggak dipecayain?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-005-friends",
+      content: "Makanan apa yang kamu makan secara rahasia karena takut dikritik teman-teman?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-006-friends",
+      content: "Siapa yang punya playlist rahasia yang nggak akan pernah dia share ke siapapun?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-007-friends",
+      content: "Quotes motivasi atau self-help yang pernah kamu temukan di internet tapi sama sekali nggak membantu.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-008-friends",
+      content: "Ngenes atau norak mana yang pernah kamu lakukan tapi sampai sekarang masih tersembunyi?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-009-friends",
+      content: "Kalau kita jadi karakter di anime, peran apa yang cocok buat masing-masing dari kita?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-010-friends",
+      content: "Tokoh terkenal mana yang kamu private highlight di Instagram tapi nggak pernah komen?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-011-friends",
+      content: "Superpower paling useless yang mau kamu punya, tapi punya anyways karena gratis?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-012-friends",
+      content: "Rencana konyol yang pernah kamu bikin waktu mabuk atau begadang kelewat larut.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-013-friends",
+      content: "Siapa yang pernah nangis gara-gara hewan peliharaan atau tanaman mati? Nggak ada yang judge!",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-014-friends",
+      content: "Teka-teki atau tebakan receh yang bikin semua orang geregetan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-015-friends",
+      content: "Momen jail atau iseng paling sukses yang pernah kamu lakuin ke teman.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-016-friends",
+      content: "Film horror yang sebenarnya lucu bukan serem, punya rekomendasi?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-017-friends",
+      content: "Kalau kamu bisa ngapus satu hal dari internet, apa itu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-018-friends",
+      content: "Resep makanan atau minuman andalan yang kamu buat waktu lagi forced jadi chef.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-019-friends",
+      content: "Siapa yang paling sering salah paham chat sampai hampir putus pertemanan?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-020-friends",
+      content: "Aplikasi yang kamu hapus lalu instal lagi berkali-kali karena kehabisan memori.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-021-friends",
+      content: "Quotes atau dialog dari film yang sering kamu pake untuk flex atau sindir orang.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-022-friends",
+      content: "Buat rating 1-10, seberapa sering kamu kehilangan barang penting?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-023-friends",
+      content: "Waktu kecil, kamu pernah percaya fakta tentang dunia yang ternyata hoax?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-024-friends",
+      content: "Siapa yang pura-pura sibuk waktu ditawarin tugas yang nggak mau dikerjain?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-025-friends",
+      content: "Ide-ide bisnis yang kayanya bakal sukses tapi never executed sama sekali.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-026-friends",
+      content: "Random question: Kamu pernah nggak sih, nyuruh orang lain push rank biar kamu bisa naik?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-027-friends",
+      content: "Kebenaran atau konspirasi unik yang kamu percaya meskipun nggak ada buktinya.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-028-friends",
+      content: "Satu hal yang kamu banget pengen cobain tapi belum pernah nemu waktu atau kesempatan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-029-friends",
+      content: "Dapat pangkat tertinggi di game, tapi harus jadi NPC yang diam di pojokan. Mau?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-030-friends",
+      content: "Momen paling awkward yang pernah kamu alami dan sampai sekarang masih mimpi buruk.",
+      isOpening: false,
+      isClosing: false,
+    },
+    // Closing Card
+    {
+      id: "crd-031-friends",
+      content: "Terima kasih sudah menghabiskan waktu berharga ini bersama! Sahabat itu seperti bintang, kadang tidak terlihat, tapi selalu ada di langit. Semoga persahabatan kita terus berlanjut hingga tua nanti. INGAT: POKOKNYA JANGAN LUPA MAKAN! SAMPAI JUMPA DI OBROLAN SELANJUTNYA!",
+      isOpening: false,
+      isClosing: true,
+    },
+  ],
+  boyfriendGirlfriend: [
+    // Opening Card
+    {
+      id: "crd-001-couples",
+      content: "HALO CINTA! Sebelum kita terbang ke dunia percakapan, ada beberapa hal yang perlu kita sepakati: 1) Jadilah versi terbaik dari dirimu. 2) Dengarkan dengan hati. 3) Tidak ada jawaban yang salah di sini. 4) Yang paling penting: NIKMATI SETIAP DETIK BERSAMA! Klik 'Mulai' untuk memulai perjalanan kita.",
+      isOpening: true,
+      isClosing: false,
+    },
+    // Convo Cards (28 cards)
+    {
+      id: "crd-002-couples",
+      content: "Siapa yang paling sering nginep di rumah masing-masing sampai dikatain jadi anggota keluarga sama ortu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-003-couples",
+      content: "Pilih satu: Nonton drama Korea bareng terus nangis berdua, atau nonton action terus tidur?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-004-couples",
+      content: "Momen pertama kita yang sampai sekarang masih terbakar jelas di ingatan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-005-couples",
+      content: "Siapa yang paling sering rebutan selimut waktu tidur?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-006-couples",
+      content: "Food couple atau food enemy? Makanan apa yang kamu suka tapi pasanganmu nggak, atau sebaliknya.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-007-couples",
+      content: "Quotes atau pantun sayang yang pernah kamu buat tapi malu buat dipost?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-008-couples",
+      content: "Kapan terakhir kali kita berdua ngabisin uang buat hal yang sebenarnya nggak perlu tapi worth it anyway?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-009-couples",
+      content: "Siapa yang paling sering pura-pura tidur biar nggak harus ngelakuin sesuatu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-010-couples",
+      content: "Film atau series yang kita tonton bareng dan akhirnya jadi favorit berdua.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-011-couples",
+      content: "Superpower apa yang pengen kamu punya biar hubungan kita jadi lebih mudah?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-012-couples",
+      content: "Rencana rahasia masa depan yang belum pernah kita omongin sama orang lain.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-013-couples",
+      content: "Siapa yang paling sering lupa hal penting kayak anniversary atau tanggal berharga?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-014-couples",
+      content: "Momen awkward berdua yang sampai sekarang masih kamu inget dan ketawa.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-015-couples",
+      content: "Pilih satu: Liburan ke pantai terus salah satu harus apply sunscreen ke punggung, atau Liburan ke gunung terus salah satu harus gendong yang lain?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-016-couples",
+      content: "Lagu yang kalau dengerin langsung inget sama pasangan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-017-couples",
+      content: "Tokoh fiksi atau selebriti mana yang kamuizen mirip sama pasanganmu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-018-couples",
+      content: "Buat scale 1-10, seberapa sering kita berdua ketiduran pas lagi nonton film?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-019-couples",
+      content: "Momen marah atau kesal yang sebenarnya lucu kalau diingat-ingat.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-020-couples",
+      content: "Siapa yang paling sering scroll TikTok sampai lupa waktu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-021-couples",
+      content: "Satu hal yang pasangan kamu lakuin yang awalnya bikin kesal, tapi lama-lama jadi lucu dan menggemaskan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-022-couples",
+      content: "Kapan terakhir kali kita berdua pura-pura nggak saling kenal gara-gara malu?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-023-couples",
+      content: "Ide date night yang pengen kita cobain tapi belum pernah kesampean.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-024-couples",
+      content: "Siapa yang paling sering minta tolong yang sebenarnya bisa dilakuin sendiri?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-025-couples",
+      content: "Momen di mana kita berdua bilang hal yang sama secara bersamaan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-026-couples",
+      content: "Buat 3 keinginan yang akan kamu kasih ke pasangan kalo kamu punya lampu penyihir.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-027-couples",
+      content: "Siapa yang paling sering nyuruh partner buat nelpon atau chat dulu sebelum tidur?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-028-couples",
+      content: "Satu hal yang kamu banget berterima kasih karena pasangan kamu sudah memberikan.",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-029-couples",
+      content: "Pilih satu: Harus berhenti scrolling HP buat 24 jam, atau harus berhenti nonton Netflix buat 24 jam?",
+      isOpening: false,
+      isClosing: false,
+    },
+    {
+      id: "crd-030-couples",
+      content: "Momen paling romantis yang pernah kita lalui berdua, meskipun kadang terlihat biasa aja.",
+      isOpening: false,
+      isClosing: false,
+    },
+    // Closing Card
+    {
+      id: "crd-031-couples",
+      content: "Terima kasih sudah membuka hatimu di sini. Cinta itu bukan tentang kesempurnaan, tapi tentang memilih satu sama lain setiap hari. Semoga cinta kita terus tumbuh dan bermekaran. JANGAN LUPA: Komunikasi adalah kunci dari segalanya. SAMPAI JUMPA DI OBROLAN SELANJUTNYA!",
+      isOpening: false,
+      isClosing: true,
+    },
+  ],
+};
