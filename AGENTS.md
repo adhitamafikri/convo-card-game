@@ -1,0 +1,48 @@
+---
+description: Fun game to make your gathering more engaging, fun, and enjoyable
+alwaysApply: true
+---
+
+# Obrolan Card Game
+
+**Digitalized "Obrolan Kita" type of card game**
+
+https://github.com/kjonexa/obrolan-card-game (Private)
+
+---
+
+## Tech Stacks
+- Frontend: NextJS 16.x + Typescript
+- Bundler: Turbopack
+- Package Manager and Runner: Bun ~1.3 (as mentioned in .prototools), use this for installing and updating project dependencies
+- Styling and UI Kit: TailwindCSS + DaisyUI
+- Unit testing: vitest + testing-library/react
+- Code Quality: eslint
+
+## Documentations
+This project's documentations live in `./docs` and `./notes` directories with some distinctions
+- **./docs**: This is where the developer writes the documentation by hand. It is expected that this directory contains the ideas, thoughts, and plans from the developer.
+    - **Examples**
+        - PRD,
+        - System Design Documents
+        - Feature execution plans
+        - .etc
+    - **What you can do**
+        - Help developer review and refine the documents
+        - Help developer refine and iterate with their plans
+- **./notes**: This is where you, the *AI AGENT* write your documents/notes autonomously
+    - **Notes naming convention**
+        - **ALWAYS use YYYY-MM-DD-slug.md format** for all documentation files
+        - Get current date from system: `date +%Y-%m-%d`
+        - Never assume or hardcode dates
+        - Use lowercase with hyphens for slugs (e.g., `2025-11-05-feature-implementation.md`)
+        - Examples:
+          - ✅ `2025-11-07-docker-compose-setup.md`
+          - ✅ `2025-10-22-ui-audit-results.md`
+          - ❌ `setup.md` (missing date)
+          - ❌ `IMPROVEMENTS.md` (missing date, uppercase)
+          - ❌ `FINAL_AUDIT_2025-10-22.md` (date in wrong position)
+    - **What you can do**
+        - Write system analysis documents
+        - Write bug investigation or RCA documents
+        - Write suggestions on how developer could improve the system, fix the problem, or implement the new feature
