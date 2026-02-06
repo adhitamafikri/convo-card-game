@@ -1,65 +1,246 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import { gameThemes } from "@/configs/contents";
+
+type GameThemeSlug = "family" | "friends" | "boyfriendGirlfriend";
 
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+  const [showSplash, setShowSplash] = useState(true);
+  const [playerCount, setPlayerCount] = useState<number>(2);
+  const [playerNames, setPlayerNames] = useState<string[]>(["", ""]);
+  const [selectedTheme, setSelectedTheme] = useState<GameThemeSlug>("family");
+  const [showPlayerInput, setShowPlayerInput] = useState(false);
+  const [showThemeSelection, setShowThemeSelection] = useState(false);
+
+  useEffect(() => {
+    const splashHidden = sessionStorage.getItem("splash-hidden");
+    if (splashHidden) {
+      const timer = setTimeout(() => {
+        setShowSplash(false);
+      }, 0);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleStartSplash = () => {
+    sessionStorage.setItem("splash-hidden", "true");
+    setShowSplash(false);
+  };
+
+  const handlePlayerCountChange = (count: number) => {
+    const clampedCount = Math.max(2, Math.min(4, count));
+    setPlayerCount(clampedCount);
+    setPlayerNames((prev) => {
+      const newNames = [...prev];
+      if (clampedCount > newNames.length) {
+        for (let i = newNames.length; i < clampedCount; i++) {
+          newNames.push("");
+        }
+      } else {
+        newNames.length = clampedCount;
+      }
+      return newNames;
+    });
+  };
+
+  const handlePlayerNameChange = (index: number, name: string) => {
+    const newNames = [...playerNames];
+    newNames[index] = name;
+    setPlayerNames(newNames);
+  };
+
+  const handleStartGame = () => {
+    console.log("Starting game with:", {
+      theme: selectedTheme,
+      players: playerNames.filter((n) => n.trim()),
+    });
+  };
+
+  if (showSplash) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-950 dark:to-rose-950">
+        <div className="text-center space-y-6 animate-fade-in">
+          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-12 h-12 text-white"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+            Obrolan Card Game
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-base-content/60 dark:text-base-content/40 max-w-md mx-auto">
+            A conversation card game to make your gathering more engaging,
+            fun, and enjoyable
+          </p>
+          <div className="pt-4">
+            <Button onClick={handleStartSplash} variant="primary" size="lg">
+              Mulai Bermain
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-950 dark:to-rose-950 py-8 px-4">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+            Obrolan Card Game
+          </h1>
+          <p className="text-base-content/60 dark:text-base-content/40">
+            Mari mulai permainan
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="card bg-white dark:bg-base-300 shadow-xl border border-orange-100 dark:border-orange-800/30">
+          <div className="card-body items-center text-center space-y-6">
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full max-w-xs"
+              onClick={() => setShowPlayerInput(true)}
+            >
+              Main Sekarang
+            </Button>
+
+            <Button variant="outline" className="w-full max-w-xs">
+              Cara Bermain
+            </Button>
+          </div>
         </div>
-      </main>
+      </div>
+
+      {showPlayerInput && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-base-300 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
+            <div className="space-y-4">
+              <h3 className="font-semibold text-lg text-base-content dark:text-base-content-dark">
+                Berapa pemain yang akan bergabung?
+              </h3>
+              <div className="flex items-center justify-center gap-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePlayerCountChange(playerCount - 1)}
+                  disabled={playerCount <= 2}
+                >
+                  -
+                </Button>
+                <span className="text-2xl font-bold text-orange-600 dark:text-orange-400 w-12">
+                  {playerCount}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handlePlayerCountChange(playerCount + 1)}
+                  disabled={playerCount >= 4}
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <h4 className="font-medium text-base-content dark:text-base-content-dark">
+                Nama-nama Pemain
+              </h4>
+              {playerNames.map((name, index) => (
+                <Input
+                  key={index}
+                  placeholder={`Pemain ${index + 1}`}
+                  value={name}
+                  onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                />
+              ))}
+            </div>
+
+            <div className="flex justify-center gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowPlayerInput(false)}
+              >
+                Kembali
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setShowPlayerInput(false);
+                  setShowThemeSelection(true);
+                }}
+              >
+                Lanjut
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showThemeSelection && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-base-300 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
+            <h3 className="font-semibold text-lg text-base-content-dark">
+              Pilih Tema Permainan
+            </h3>
+
+            <div className="space-y-3">
+              {Object.entries(gameThemes).map(([key, theme]) => (
+                <label
+                  key={key}
+                  className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                    selectedTheme === key
+                      ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
+                      : "border-base-300 dark:border-base-100 hover:border-orange-300"
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="theme"
+                    className="radio radio-primary radio-sm"
+                    checked={selectedTheme === key}
+                    onChange={() => setSelectedTheme(key as GameThemeSlug)}
+                  />
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-base-content-dark">
+                      {theme.name}
+                    </h4>
+                    <p className="text-sm text-base-content/60 dark:text-base-content/40">
+                      {theme.description}
+                    </p>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            <div className="flex justify-center gap-3">
+              <Button
+                variant="outline"
+                onClick={() => setShowThemeSelection(false)}
+              >
+                Kembali
+              </Button>
+              <Button variant="primary" onClick={handleStartGame}>
+                Mulai Permainan
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

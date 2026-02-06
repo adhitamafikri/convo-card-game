@@ -94,8 +94,9 @@ Here are the important nature of the questions written on each card for every th
 - Instead of writing all components into solely into the `pages.tsx` or `layout.tsx`, we need to create reusable components and put them in the `components/` directory.
   - `Input`
   - `Button`
-  - `Dialog`
+  - `Modal`
   - `GameCard`
+  - `CardStack`
   - `GameDeck`
   - `Header`
   - `Footer`
