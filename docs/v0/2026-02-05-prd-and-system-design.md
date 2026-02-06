@@ -24,7 +24,7 @@ Here are the important mechanics of the `v0` version of this game:
 
 - Family
 - Friends
-- Boyfriend/Girlfriend
+- Couples
 
 3. Each theme contains **30** cards of conversation-starting questions
 
@@ -137,7 +137,7 @@ type GameTheme = {
 };
 
 type GameThemes = Record<
-  "family" | "friends" | "boyfriendGirlfriend",
+  "family" | "friends" | "couples",
   GameTheme
 >;
 
@@ -155,10 +155,10 @@ const gameThemes: GameThemes = {
     slug: "friends",
     description: "synthesized_content",
   },
-  boyfriendGirlfriend: {
+  couples: {
     id: "gt-03",
-    name: "Boyfriend/Girlfriend",
-    slug: "boyfriend-girlfriend",
+    name: "Couples",
+    slug: "couples",
     description: "synthesized_content",
   },
 };
@@ -175,7 +175,7 @@ type GameCardContent = {
 };
 
 type GameCardContents = Record<
-  "family" | "friends" | "boyfriendGirlfriend",
+  "family" | "friends" | "couples",
   GameCardContent[]
 >;
 

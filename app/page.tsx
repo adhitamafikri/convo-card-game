@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { GameThemeSlug } from "@/types";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { gameThemes } from "@/configs/contents";
-
-type GameThemeSlug = "family" | "friends" | "boyfriendGirlfriend";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -61,16 +60,16 @@ export default function Home() {
 
   if (showSplash) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-950 dark:to-rose-950">
+      <div className="min-h-full flex items-center justify-center">
         <div className="text-center space-y-6 animate-fade-in">
-          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-200/50 dark:shadow-orange-900/30">
+          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-12 h-12 text-white"
+              className="w-12 h-12 text-primary-content"
             >
               <path
                 strokeLinecap="round"
@@ -79,10 +78,10 @@ export default function Home() {
               />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+          <h1 className="text-3xl font-bold text-primary">
             Obrolan Card Game
           </h1>
-          <p className="text-base-content/60 dark:text-base-content/40 max-w-md mx-auto">
+          <p className="text-base-content/60 max-w-md mx-auto">
             A conversation card game to make your gathering more engaging,
             fun, and enjoyable
           </p>
@@ -97,24 +96,24 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-950 dark:to-rose-950 py-8 px-4">
+    <div className="min-h-full flex flex-col items-center justify-center py-8 px-4">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+          <h1 className="text-3xl font-bold text-primary">
             Obrolan Card Game
           </h1>
-          <p className="text-base-content/60 dark:text-base-content/40">
+          <p className="text-base-content/60">
             Mari mulai permainan
           </p>
         </div>
 
-        <div className="card bg-white dark:bg-base-300 shadow-xl border border-orange-100 dark:border-orange-800/30">
+        <div className="card bg-base-200 shadow-xl border border-base-300">
           <div className="card-body items-center text-center space-y-6">
             <Button
               variant="primary"
               size="lg"
               className="w-full max-w-xs"
-              onClick={() => setShowPlayerInput(true)}
+              onClick={() => setShowThemeSelection(true)}
             >
               Main Sekarang
             </Button>
@@ -128,9 +127,9 @@ export default function Home() {
 
       {showPlayerInput && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-base-300 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
+          <div className="bg-base-200 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
             <div className="space-y-4">
-              <h3 className="font-semibold text-lg text-base-content dark:text-base-content-dark">
+              <h3 className="font-semibold text-lg text-base-content">
                 Berapa pemain yang akan bergabung?
               </h3>
               <div className="flex items-center justify-center gap-4">
@@ -142,7 +141,7 @@ export default function Home() {
                 >
                   -
                 </Button>
-                <span className="text-2xl font-bold text-orange-600 dark:text-orange-400 w-12">
+                <span className="text-2xl font-bold text-primary w-12">
                   {playerCount}
                 </span>
                 <Button
@@ -157,7 +156,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-medium text-base-content dark:text-base-content-dark">
+              <h4 className="font-medium text-base-content">
                 Nama-nama Pemain
               </h4>
               {playerNames.map((name, index) => (
@@ -173,18 +172,18 @@ export default function Home() {
             <div className="flex justify-center gap-3">
               <Button
                 variant="outline"
-                onClick={() => setShowPlayerInput(false)}
-              >
-                Kembali
-              </Button>
-              <Button
-                variant="primary"
                 onClick={() => {
                   setShowPlayerInput(false);
                   setShowThemeSelection(true);
                 }}
               >
-                Lanjut
+                Kembali
+              </Button>
+              <Button
+                variant="primary"
+                onClick={handleStartGame}
+              >
+                Mulai Permainan
               </Button>
             </div>
           </div>
@@ -193,8 +192,8 @@ export default function Home() {
 
       {showThemeSelection && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-base-300 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
-            <h3 className="font-semibold text-lg text-base-content-dark">
+          <div className="bg-base-200 rounded-xl shadow-xl max-w-md w-full p-6 space-y-6">
+            <h3 className="font-semibold text-lg text-base-content">
               Pilih Tema Permainan
             </h3>
 
@@ -204,8 +203,8 @@ export default function Home() {
                   key={key}
                   className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
                     selectedTheme === key
-                      ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20"
-                      : "border-base-300 dark:border-base-100 hover:border-orange-300"
+                      ? "border-primary bg-base-200"
+                      : "border-base-300 hover:border-primary/50"
                   }`}
                 >
                   <input
@@ -216,10 +215,10 @@ export default function Home() {
                     onChange={() => setSelectedTheme(key as GameThemeSlug)}
                   />
                   <div className="flex-1 text-left">
-                    <h4 className="font-semibold text-base-content-dark">
+                    <h4 className="font-semibold text-base-content">
                       {theme.name}
                     </h4>
-                    <p className="text-sm text-base-content/60 dark:text-base-content/40">
+                    <p className="text-sm text-base-content/60">
                       {theme.description}
                     </p>
                   </div>
@@ -234,8 +233,14 @@ export default function Home() {
               >
                 Kembali
               </Button>
-              <Button variant="primary" onClick={handleStartGame}>
-                Mulai Permainan
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setShowThemeSelection(false);
+                  setShowPlayerInput(true);
+                }}
+              >
+                Lanjut
               </Button>
             </div>
           </div>

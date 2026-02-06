@@ -1,14 +1,4 @@
-export type GameTheme = {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-};
-
-export type GameThemes = Record<
-  "family" | "friends" | "boyfriendGirlfriend",
-  GameTheme
->;
+import type { GameTheme, GameThemes, Card, GameCardContents } from "@/types";
 
 export const gameThemes: GameThemes = {
   family: {
@@ -23,25 +13,13 @@ export const gameThemes: GameThemes = {
     slug: "sahabat",
     description: "Mengungkap sisi tersembunyi dari persahabatan dan mempererat tali persaudaraan",
   },
-  boyfriendGirlfriend: {
+  couples: {
     id: "gt-03",
     name: "Pasangan",
     slug: "pasangan",
     description: "Memperdalam ikatan dan memahami lebih dalam antara dua hati",
   },
 };
-
-export type GameCardContent = {
-  id: string;
-  content: string;
-  isOpening: boolean;
-  isClosing: boolean;
-};
-
-export type GameCardContents = Record<
-  "family" | "friends" | "boyfriendGirlfriend",
-  GameCardContent[]
->;
 
 export const gameCardContents: GameCardContents = {
   family: [
@@ -426,7 +404,7 @@ export const gameCardContents: GameCardContents = {
       isClosing: true,
     },
   ],
-  boyfriendGirlfriend: [
+  couples: [
     // Opening Card
     {
       id: "crd-001-couples",
@@ -527,7 +505,7 @@ export const gameCardContents: GameCardContents = {
     },
     {
       id: "crd-017-couples",
-      content: "Tokoh fiksi atau selebriti mana yang kamuizen mirip sama pasanganmu?",
+      content: "Tokoh fiksi atau selebriti mana yang menurutmu mirip sama pasanganmu?",
       isOpening: false,
       isClosing: false,
     },

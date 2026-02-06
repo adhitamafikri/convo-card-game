@@ -94,16 +94,16 @@ export function Modal({
       className="modal backdrop:bg-black/50"
       onClick={handleBackdropClick}
     >
-      <div className="modal-box bg-white dark:bg-base-300 border border-orange-100 dark:border-orange-800/30 max-w-2xl">
+      <div className="modal-box bg-base-200 border-2 border-primary/30 shadow-warm-lg max-w-2xl">
         {title && (
-          <h3 className="font-bold text-lg text-orange-600 dark:text-orange-400 mb-4">
+          <h3 className="font-bold text-lg text-secondary mb-4">
             {title}
           </h3>
         )}
         {children}
         {showCloseButton && (
           <form method="dialog" className="modal-action mt-4">
-            <button className="btn btn-ghost btn-sm text-base-content/60 hover:text-orange-500">
+            <button className="btn btn-ghost btn-sm">
               Close
             </button>
           </form>

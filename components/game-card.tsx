@@ -14,8 +14,8 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
         ref={ref}
         className={`card w-64 h-80 transition-all duration-300 ${
           isOpen
-            ? "bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-900/20 dark:to-rose-900/20 border-2 border-orange-400 dark:border-orange-500"
-            : "bg-white dark:bg-base-300 border border-orange-200 dark:border-orange-800 hover:border-orange-400 dark:hover:border-orange-500 cursor-pointer hover:shadow-lg hover:shadow-orange-200/50 dark:hover:shadow-orange-900/20"
+            ? "bg-gradient-subtle border-2 border-secondary shadow-warm-lg"
+            : "bg-base-200 border-2 border-primary/30 hover:border-primary cursor-pointer card-hover shadow-warm"
         } ${className}`}
         onClick={onSelect}
         {...props}
@@ -24,21 +24,21 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
           {isOpen ? (
             <div className="w-full h-full flex flex-col items-center justify-center">
               <div className="flex-1 flex items-center justify-center">
-                <p className="text-lg font-medium text-base-content dark:text-base-content-dark leading-relaxed">
+                <p className="text-lg font-medium text-base-content leading-relaxed">
                   {children}
                 </p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-orange-400 to-rose-400 flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-8 h-8 text-white"
+                  className="w-8 h-8 text-primary-content"
                 >
                   <path
                     strokeLinecap="round"
@@ -47,7 +47,7 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                   />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-orange-500 dark:text-orange-400">
+              <p className="text-sm font-medium text-primary">
                 Tap to reveal
               </p>
             </div>

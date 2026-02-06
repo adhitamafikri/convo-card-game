@@ -1,25 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import type { GameThemeSlug, Card } from "@/types";
 import { Button } from "@/components/button";
 import { GameCard } from "@/components/game-card";
 import { CardStack } from "@/components/card-stack";
 import { GameDeck } from "@/components/game-deck";
 import { gameCardContents } from "@/configs/contents";
 
-type GameThemeSlug = "family" | "friends" | "boyfriendGirlfriend";
-
-interface GameCardItem {
-  id: string;
-  content: string;
-  isOpening: boolean;
-  isClosing: boolean;
-}
-
 export default function GameRoomPage() {
-  const [cardsOnStack] = useState<GameCardItem[]>([]);
-  const [cardsOnDeck, setCardsOnDeck] = useState<GameCardItem[]>([]);
-  const [selectedCard, setSelectedCard] = useState<GameCardItem | null>(null);
+  const [cardsOnStack] = useState<Card[]>([]);
+  const [cardsOnDeck, setCardsOnDeck] = useState<Card[]>([]);
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [currentTheme] = useState<GameThemeSlug>("family");
 
   const handleDrawCard = () => {
@@ -37,7 +29,7 @@ export default function GameRoomPage() {
     }
   };
 
-  const handleSelectCard = (card: GameCardItem) => {
+  const handleSelectCard = (card: Card) => {
     setSelectedCard(card);
   };
 
@@ -53,14 +45,14 @@ export default function GameRoomPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-rose-50 dark:from-orange-950 dark:to-rose-950 py-8 px-4">
+    <div className="min-h-full py-8 px-4">
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+            <h1 className="text-2xl font-bold text-primary">
               Room: Obrolan
             </h1>
-            <p className="text-sm text-base-content/60 dark:text-base-content/40">
+            <p className="text-sm text-base-content/60">
               Tema: {gameCardContents[currentTheme][0]?.id.includes("family") ? "Keluarga" : "Sahabat"}
             </p>
           </div>
@@ -84,7 +76,7 @@ export default function GameRoomPage() {
           <div className="lg:col-span-2">
             <GameDeck title="Pilih Kartu">
               {cardsOnDeck.length === 0 ? (
-                <p className="text-base-content/40 dark:text-base-content/30 text-center py-12">
+                <p className="text-base-content/40 text-center py-12">
                   Tekan tombol di sebelah untuk menarik kartu
                 </p>
               ) : (
@@ -104,7 +96,7 @@ export default function GameRoomPage() {
         </div>
 
         {selectedCard && (
-          <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/90 dark:bg-base-300/90 border-t border-orange-100 dark:border-orange-800/30">
+          <div className="fixed bottom-0 left-0 right-0 p-4 bg-base-200/90 backdrop-blur-sm border-t-2 border-primary/20 shadow-warm">
             <div className="max-w-4xl mx-auto flex justify-center">
               <Button variant="primary" size="lg" onClick={handleEndTurn}>
                 Selesai
