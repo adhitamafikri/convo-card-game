@@ -15,37 +15,6 @@ Here are some examples of the physical products that is being used as inspiratio
 - [https://tk.tokopedia.com/ZSa7qn3Ay/](https://tk.tokopedia.com/ZSa7qn3Ay/)
 - [https://tk.tokopedia.com/ZSa7bjhyF/](https://tk.tokopedia.com/ZSa7bjhyF/)
 
-### The Game Mechanics
-
-Here are the important mechanics of the `v0` version of this game:
-
-1. The player would see a simple splash screen and menu screen when they visit this game site
-2. This game has 3 different themes of conversation cards that could be selected by the players
-
-- Family
-- Friends
-- Couples
-
-3. Each theme contains **30** cards of conversation-starting questions
-
-- 1 "Opening" card (the purpose of this card is for Safety & Rules)
-- 28 convo card (the core, exploration with questions based on selected theme)
-- 1 "Closing" card (the purpose of this card is for the Aftercare & Exit)
-
-4. Once the player selects a theme, player would be prompted to input the number of players. (2 player minimum, 4 player max)
-5. After inputting the number of players, the game would display N number of text field components to input the players' name
-6. After inputting the player names, the player should click on the "Begin" button and be redirected into a game room session
-7. When the game room is open for the first time, the opening card would be displayed.
-8. The primary _28_ cards would be shuffled, then drawn to the table. The amount of card drawn to the table, equals the amount of players that is registered in the current session
-9. The player would take-turns to pick a card drawn to the table.
-10. Once a card is picked by the player, the question will be revealed and the player will have to ask each players to answer it. An "End Turn" button would also be displayed
-11. When the player is satisfied with the answers from the other players, they can click the "End Turn" button.
-12. Another card would be drawn to the table so the amount of card would still match the number of players (as long as there is still enough cards in the stack)
-13. The game would loop from `Step 8` to `Step 12` as long as there are remaining convo-cards in the stack
-14. Once the convo-cards stack are empty, the "Closing" card would be displayed. Basically tells the player not to have any hard feelings or take any offense from the those questions. A "Back to Menu" button will be displayed
-15. Player would be redirected back to Menu page after clicking "Back to Menu"
-16. In the game room page, the player would see a "Force Stop Session" button to stop the current session and immediately back to main menu
-
 ### The Nature of Questions
 
 Here are the important nature of the questions written on each card for every theme, ensuring that the game is engaging, fun, and does not offend the players' personal space:
@@ -233,10 +202,7 @@ function useGameState() {}
   - Main content container spanning 100vw and with minimum height of the rest of the viewport height (100vh - height_of_header)
   - Footer at the very bottom part of the page
 
-1. Splash Screen
-   - This will be displayed at the Main Menu page. Think of it as the frontmost layer that is being displayed on the page
-   - Splash screen only be displayed once, when the player visits the page for the first time
-2. Main Menu Page
+1. Main Menu Page
    - Contains a simple game menu, centered in the main content container.
    - The menu elements are placed vertically: Title of the game, "Play" button
    - Player Input Dialog
@@ -248,9 +214,40 @@ function useGameState() {}
      - Each theme are represented with `title` and `description` of the game theme
      - Each theme has a radio button that could be used to select that theme
      - Contains a "Start Game" button that chooses the theme, establish all the game state, and redirect the player to the Game Room page
-3. Game Room Page
+2. Game Room Page
    - Displays the "Opening" card content and "Begin" button
    - Displays the cards that is drawn to the deck using simple `GameCard` component its content hidden
    - When the player clicks on a `GameCard`, the content of that selected card would be revealed and displayed to the player
    - An "End Turn" button would be displayed when a `GameCard` content is being displayed
    - There is a "Force Stop Session" floating at the top-right position of the viewport
+
+### The Game Mechanics
+
+Here are the important mechanics of the `v0` version of this game:
+
+1. The player would see a simple splash screen and menu screen when they visit this game site
+2. This game has 3 different themes of conversation cards that could be selected by the players
+
+- Family
+- Friends
+- Couples
+
+3. Each theme contains **30** cards of conversation-starting questions
+
+- 1 "Opening" card (the purpose of this card is for Safety & Rules)
+- 28 convo card (the core, exploration with questions based on selected theme)
+- 1 "Closing" card (the purpose of this card is for the Aftercare & Exit)
+
+4. Once the player selects a theme, player would be prompted to input the number of players. (2 player minimum, 4 player max)
+5. After inputting the number of players, the game would display N number of text field components to input the players' name
+6. After inputting the player names, the player should click on the "Begin" button and be redirected into a game room session
+7. When the game room is open for the first time, the opening card would be displayed.
+8. The primary _28_ cards would be shuffled, then drawn to the table. The amount of card drawn to the table, equals the amount of players that is registered in the current session
+9. The player would take-turns to pick a card drawn to the table.
+10. Once a card is picked by the player, the question will be revealed and the player will have to ask each players to answer it. An "End Turn" button would also be displayed
+11. When the player is satisfied with the answers from the other players, they can click the "End Turn" button.
+12. Another card would be drawn to the table so the amount of card would still match the number of players (as long as there is still enough cards in the stack)
+13. The game would loop from `Step 8` to `Step 12` as long as there are remaining convo-cards in the stack
+14. Once the convo-cards stack are empty, the "Closing" card would be displayed. Basically tells the player not to have any hard feelings or take any offense from the those questions. A "Back to Menu" button will be displayed
+15. Player would be redirected back to Menu page after clicking "Back to Menu"
+16. In the game room page, the player would see a "Force Stop Session" button to stop the current session and immediately back to main menu

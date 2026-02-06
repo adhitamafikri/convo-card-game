@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import type { GameThemeSlug } from "@/types";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
@@ -9,6 +10,7 @@ import { DemoCard } from "@/components/demo-card";
 import { gameThemes } from "@/configs/contents";
 
 export default function Home() {
+  const router = useRouter();
   const [playerCount, setPlayerCount] = useState<number>(2);
   const [playerNames, setPlayerNames] = useState<string[]>(["", ""]);
   const [selectedTheme, setSelectedTheme] = useState<GameThemeSlug>("family");
@@ -38,10 +40,13 @@ export default function Home() {
   };
 
   const handleStartGame = () => {
-    console.log("Starting game with:", {
+    const sessionData = {
       theme: selectedTheme,
       players: playerNames.filter((n) => n.trim()),
-    });
+      timestamp: Date.now(),
+    };
+    localStorage.setItem("gameSession", JSON.stringify(sessionData));
+    router.push("/game-room");
   };
 
   const isValidPlayerNames = playerNames.filter((n) => n.trim()).length >= 2;

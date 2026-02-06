@@ -12,7 +12,7 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
     return (
       <div
         ref={ref}
-        className={`card w-64 h-80 transition-all duration-300 ${
+        className={`card w-48 md:w-56 lg:w-64 h-60 md:h-72 lg:h-80 transition-all duration-300 ${
           isOpen
             ? "bg-gradient-subtle border-2 border-secondary shadow-warm-lg"
             : "bg-base-200 border-2 border-primary/30 hover:border-primary cursor-pointer card-hover shadow-warm"
