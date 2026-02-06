@@ -2,7 +2,7 @@ export function AboutModalContent() {
   return (
     <div className="space-y-4 text-base-content/80 leading-relaxed">
       <p>
-        <strong className="text-secondary">Kartu Obrolan</strong> adalah
+        <strong className="text-secondary">SambungRasa</strong> adalah
         permainan kartu percakapan yang dirancang untuk membuat momen ngobrol
         bersama menjadi lebih bermakna dan berkesan.
       </p>

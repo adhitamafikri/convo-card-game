@@ -56,7 +56,7 @@ export default function Home() {
             <div className="space-y-8 text-center lg:text-left">
               <div className="space-y-4">
                 <p className="text-base md:text-lg font-medium text-secondary uppercase tracking-wide">
-                  Kartu Obrolan
+                  SambungRasa
                 </p>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-base-content leading-[1.1] tracking-tight">
                   Buat obrolan jadi lebih bermakna
@@ -72,7 +72,7 @@ export default function Home() {
                 <Button
                   variant="primary"
                   size="lg"
-                  className="bg-base-content hover:bg-base-content/90 text-primary border-none shadow-lg hover:shadow-xl transition-all font-bold text-lg px-8 py-4"
+                  className="bg-primary hover:opacity-90 text-white border-none shadow-lg hover:shadow-xl transition-all font-bold text-lg px-8 py-4"
                   onClick={() => setShowThemeSelection(true)}
                 >
                   MULAI SEKARANG

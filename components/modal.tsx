@@ -128,7 +128,7 @@ export function Modal({
               className="btn btn-ghost btn-sm"
               onClick={closeModal}
             >
-              Close
+              Tutup
             </button>
           </div>
         )}

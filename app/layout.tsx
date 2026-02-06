@@ -20,7 +20,7 @@ const merriweather = Merriweather({
 });
 
 export const metadata: Metadata = {
-  title: "Obrolan Card Game",
+  title: "SambungRasa",
   description: "Digitalized conversation card game for meaningful gatherings",
 };
 

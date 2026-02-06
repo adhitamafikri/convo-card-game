@@ -2,8 +2,6 @@ export function HowToPlayModalContent() {
   return (
     <div className="space-y-6">
       <div className="space-y-4">
-        <h4 className="font-semibold text-lg text-secondary">Cara Bermain:</h4>
-
         <div className="space-y-3">
           <div className="flex gap-3">
             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
