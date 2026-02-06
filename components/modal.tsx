@@ -65,9 +65,15 @@ export function Modal({
   children,
   title,
   showCloseButton = true,
+  isOpen: controlledIsOpen,
+  onClose: controlledOnClose,
 }: ModalContentProps) {
-  const { isOpen, closeModal } = useModal();
+  const modalContext = useContext(ModalContext);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  // Use controlled props if provided, otherwise use context
+  const isOpen = controlledIsOpen ?? modalContext?.isOpen ?? false;
+  const closeModal = controlledOnClose ?? modalContext?.closeModal ?? (() => {});
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -79,6 +85,20 @@ export function Modal({
       dialog.close();
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+      }
+    };
+
+    dialog.addEventListener("keydown", handleEscape);
+    return () => dialog.removeEventListener("keydown", handleEscape);
+  }, [closeModal]);
 
   const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
     if (e.target === dialogRef.current) {
@@ -94,7 +114,7 @@ export function Modal({
       className="modal backdrop:bg-black/50"
       onClick={handleBackdropClick}
     >
-      <div className="modal-box bg-base-200 border-2 border-primary/30 shadow-warm-lg max-w-2xl">
+      <div className="modal-box bg-base-200 border-2 border-primary/30 shadow-warm-lg max-w-2xl animate-slide-up">
         {title && (
           <h3 className="font-bold text-lg text-secondary mb-4">
             {title}
@@ -102,11 +122,15 @@ export function Modal({
         )}
         {children}
         {showCloseButton && (
-          <form method="dialog" className="modal-action mt-4">
-            <button className="btn btn-ghost btn-sm">
+          <div className="modal-action mt-4">
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={closeModal}
+            >
               Close
             </button>
-          </form>
+          </div>
         )}
       </div>
     </dialog>

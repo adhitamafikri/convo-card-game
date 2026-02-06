@@ -1,18 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, Merriweather } from "next/font/google";
 import "@/app/globals.css";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
 import { ModalProvider } from "@/components/modal";
+import { LayoutWrapper } from "@/components/layout-wrapper";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const merriweather = Merriweather({
+  variable: "--font-accent",
   subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -28,14 +32,10 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="obrolan">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-gradient-game`}
+        className={`${outfit.variable} ${merriweather.variable} antialiased min-h-screen flex flex-col bg-gradient-game`}
       >
         <ModalProvider>
-          <Header />
-          <main className="flex-1 w-full">
-            {children}
-          </main>
-          <Footer />
+          <LayoutWrapper>{children}</LayoutWrapper>
         </ModalProvider>
       </body>
     </html>
