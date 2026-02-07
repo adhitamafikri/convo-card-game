@@ -16,6 +16,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-accent), Georgia, serif;
 }
 
+.font-content {
+  font-family: var(--font-content), "Comic Sans MS", cursive;
+}
+
 /**
  * Obrolan Card Game Theme Configuration
  * Natural forest green color palette - calming and sophisticated
@@ -176,6 +180,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-slide-up {
   animation: slide-up 0.5s ease-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {

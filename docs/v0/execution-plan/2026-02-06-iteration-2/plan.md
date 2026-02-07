@@ -16,14 +16,17 @@ The core objective of this iteration is to create the core mechanics of the game
 
 > This phase basically focuses on redesigning the game room page based on the lofi wireframe of `lofi-wireframe-game-room-page.png`
 
-Status: **Not Done**
+Status: **DONE**
 Actions:
 
 - Read the wireframe `./lofi-wireframe-game-room-page.png` to better understand the layouts, the items, and the actions that the room has to have
 - Scrap the current page design and improve them based on the `./lofi-wireframe-game-room-page.png`
 - Adjust the existing logic to cater the new behaviors presented in the wireframe
+- Provide better UI base, layouts, component structure, and colors
 
 ### Phase 2 - Actual Core Game Mechanics
+
+> Objective more controlled
 
 Status: **Not Done**
 Actions:

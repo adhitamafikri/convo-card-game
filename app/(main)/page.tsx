@@ -6,7 +6,7 @@ import type { GameThemeSlug } from "@/types";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { Modal } from "@/components/modal";
-import { GameCard } from "@/components/game-card";
+import { DemoGameCard } from "@/components/demo-game-card";
 import { gameThemes } from "@/configs/contents";
 
 export default function Home() {
@@ -16,7 +16,6 @@ export default function Home() {
   const [selectedTheme, setSelectedTheme] = useState<GameThemeSlug>("family");
   const [showPlayerInput, setShowPlayerInput] = useState(false);
   const [showThemeSelection, setShowThemeSelection] = useState(false);
-  const [demoCardOpen, setDemoCardOpen] = useState(false);
 
   const handlePlayerCountChange = (count: number) => {
     const clampedCount = Math.max(2, Math.min(4, count));
@@ -78,22 +77,14 @@ export default function Home() {
                   className="bg-primary hover:opacity-90 text-white border-none shadow-lg hover:shadow-xl transition-all font-bold text-lg px-8 py-4"
                   onClick={() => setShowThemeSelection(true)}
                 >
-                  MULAI SEKARANG
+                  MAIN SEKARANG
                 </Button>
               </div>
             </div>
 
             {/* Right: Interactive Demo Card */}
             <div className="flex justify-center lg:justify-end">
-              <div className="animate-fade-in">
-                <GameCard
-                  cardId="demo-card"
-                  isOpen={demoCardOpen}
-                  onSelect={() => setDemoCardOpen(!demoCardOpen)}
-                >
-                  Siapa nih yang pernah ghosting grup gara-gara takut ditagih tagihan?
-                </GameCard>
-              </div>
+              <DemoGameCard content="Siapa nih yang pernah ghosting grup gara-gara takut ditagih tagihan?" />
             </div>
           </div>
         </div>

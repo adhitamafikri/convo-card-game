@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, Merriweather } from "next/font/google";
+import { Outfit, Merriweather, Patrick_Hand } from "next/font/google";
 import "@/app/globals.css";
 import { ModalProvider } from "@/components/modal";
 import { LayoutWrapper } from "@/components/layout-wrapper";
@@ -19,6 +19,13 @@ const merriweather = Merriweather({
   display: "swap",
 });
 
+const patrickHand = Patrick_Hand({
+  variable: "--font-content",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "SambungRasa",
   description: "Digitalized conversation card game for meaningful gatherings",
@@ -32,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="obrolan">
       <body
-        className={`${outfit.variable} ${merriweather.variable} antialiased min-h-screen flex flex-col bg-gradient-game`}
+        className={`${outfit.variable} ${merriweather.variable} ${patrickHand.variable} antialiased min-h-screen flex flex-col bg-gradient-game`}
       >
         <ModalProvider>{children}</ModalProvider>
       </body>

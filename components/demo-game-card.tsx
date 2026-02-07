@@ -1,56 +1,55 @@
-import { ReactNode, HTMLAttributes, forwardRef } from "react";
+"use client";
 
-interface GameCardProps extends HTMLAttributes<HTMLDivElement> {
-  isOpen: boolean;
-  onSelect?: () => void;
-  cardId: string;
+import { useState, HTMLAttributes, forwardRef } from "react";
+
+interface DemoGameCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "children"> {
+  content: string;
   cardNumber?: number;
   theme?: string;
-  children?: ReactNode;
 }
 
-export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
-  ({ isOpen, onSelect, cardId: _cardId, cardNumber, theme, children, className = "", ...props }, ref) => {
+export const DemoGameCard = forwardRef<HTMLDivElement, DemoGameCardProps>(
+  ({ content, cardNumber = 12, theme = "Sahabat", className = "", ...props }, ref) => {
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
       <div
         ref={ref}
-        className={`card w-full md:w-80 lg:w-96 h-40 md:h-48 lg:h-56 transition-all duration-300 select-none ${
+        className={`card w-full md:w-[400px] lg:w-[440px] h-56 md:h-64 lg:h-72 transition-all duration-300 animate-float select-none ${
           isOpen
             ? "bg-gradient-to-br from-[#fdfcf9] to-[#f9f8f5] border-2 border-secondary shadow-warm-lg"
             : "bg-gradient-to-br from-primary to-secondary border-2 border-primary shadow-lg hover:shadow-xl cursor-pointer transform hover:scale-105 active:scale-95"
         } ${className}`}
-        onClick={onSelect}
+        onClick={() => setIsOpen(!isOpen)}
         {...props}
       >
-        <div className="card-body items-center justify-center p-6 text-center relative">
+        <div className="card-body items-center justify-center p-4 text-center relative">
           {isOpen ? (
             <>
               {/* Card Number - Top Left */}
-              {cardNumber && (
-                <div className="absolute top-3 left-3">
-                  <span className="text-sm font-bold text-primary">#{cardNumber}</span>
-                </div>
-              )}
+              <div className="absolute top-4 left-4">
+                <span className="text-base md:text-lg font-bold text-primary">#{cardNumber}</span>
+              </div>
 
               {/* Content - Center */}
               <div className="w-full h-full flex flex-col justify-between py-2">
-                <div className="flex-1 flex items-center justify-center px-2">
-                  <p className="font-content text-base md:text-lg font-medium text-base-content leading-relaxed">
-                    {children}
+                <div className="flex-1 flex items-center justify-center px-4">
+                  <p className="font-content text-lg md:text-2xl font-medium text-base-content leading-relaxed">
+                    {content}
                   </p>
                 </div>
 
                 {/* Logo + Theme - Bottom */}
-                <div className="flex flex-col items-center gap-1 mt-2">
+                <div className="flex flex-col items-center gap-1.5 mt-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-3 h-3 text-primary-content"
+                        className="w-3.5 h-3.5 text-primary-content"
                       >
                         <path
                           strokeLinecap="round"
@@ -59,26 +58,24 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                         />
                       </svg>
                     </div>
-                    <span className="text-xs font-bold text-primary">SambungRasa</span>
+                    <span className="text-sm md:text-base font-bold text-primary">SambungRasa</span>
                   </div>
-                  {theme && (
-                    <span className="text-[10px] text-base-content/60 font-medium uppercase tracking-wide">
-                      {theme}
-                    </span>
-                  )}
+                  <span className="text-xs text-base-content/60 font-medium uppercase tracking-wide">
+                    {theme}
+                  </span>
                 </div>
               </div>
             </>
           ) : (
-            <div className="flex flex-col items-center justify-center h-full gap-4">
-              <div className="w-16 h-16 rounded-full bg-base-100/20 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center h-full gap-4 md:gap-6">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-base-100/20 backdrop-blur-sm flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-8 h-8 text-primary-content"
+                  className="w-10 h-10 md:w-12 md:h-12 text-primary-content"
                 >
                   <path
                     strokeLinecap="round"
@@ -87,7 +84,7 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                   />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-primary-content">
+              <p className="text-base md:text-lg font-medium text-primary-content">
                 Tap to reveal
               </p>
             </div>
@@ -98,4 +95,4 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
   }
 );
 
-GameCard.displayName = "GameCard";
+DemoGameCard.displayName = "DemoGameCard";
