@@ -107,9 +107,13 @@ h1, h2, h3, h4, h5, h6 {
    Gradient Utilities
    ============================================ */
 
-/* Main solid background - Off-white/Cream */
+/* Main background - Warm Cream to Warm Sand gradient (45deg) */
 .bg-gradient-game {
-  background: #fffefc;
+  background: linear-gradient(
+    45deg,
+    #fdfcf9 0%,
+    #f9f8f5 100%
+  );
 }
 
 /* Alternative gradient - Nature Wave */

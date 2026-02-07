@@ -6,7 +6,7 @@ import type { GameThemeSlug } from "@/types";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { Modal } from "@/components/modal";
-import { DemoCard } from "@/components/demo-card";
+import { GameCard } from "@/components/game-card";
 import { gameThemes } from "@/configs/contents";
 
 export default function Home() {
@@ -16,6 +16,7 @@ export default function Home() {
   const [selectedTheme, setSelectedTheme] = useState<GameThemeSlug>("family");
   const [showPlayerInput, setShowPlayerInput] = useState(false);
   const [showThemeSelection, setShowThemeSelection] = useState(false);
+  const [demoCardOpen, setDemoCardOpen] = useState(false);
 
   const handlePlayerCountChange = (count: number) => {
     const clampedCount = Math.max(2, Math.min(4, count));
@@ -60,9 +61,6 @@ export default function Home() {
             {/* Left: Tagline and Description */}
             <div className="space-y-8 text-center lg:text-left">
               <div className="space-y-4">
-                <p className="text-base md:text-lg font-medium text-secondary uppercase tracking-wide">
-                  SambungRasa
-                </p>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-base-content leading-[1.1] tracking-tight">
                   Buat obrolan jadi lebih bermakna
                 </h1>
@@ -87,7 +85,15 @@ export default function Home() {
 
             {/* Right: Interactive Demo Card */}
             <div className="flex justify-center lg:justify-end">
-              <DemoCard />
+              <div className="animate-fade-in">
+                <GameCard
+                  cardId="demo-card"
+                  isOpen={demoCardOpen}
+                  onSelect={() => setDemoCardOpen(!demoCardOpen)}
+                >
+                  Siapa nih yang pernah ghosting grup gara-gara takut ditagih tagihan?
+                </GameCard>
+              </div>
             </div>
           </div>
         </div>

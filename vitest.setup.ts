@@ -9,7 +9,6 @@ expect.extend(matchers);
 // Polyfill for HTMLDialogElement methods (jsdom doesn't support dialog yet)
 beforeAll(() => {
   if (typeof HTMLDialogElement === 'undefined') {
-    // @ts-ignore
     global.HTMLDialogElement = class HTMLDialogElement extends HTMLElement {
       open = false;
       returnValue = '';
@@ -25,6 +24,10 @@ beforeAll(() => {
       close(returnValue = '') {
         this.open = false;
         this.returnValue = returnValue;
+      }
+
+      requestClose(returnValue = '') {
+        this.close(returnValue);
       }
     };
   } else {

@@ -12,10 +12,10 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
     return (
       <div
         ref={ref}
-        className={`card w-48 md:w-56 lg:w-64 h-60 md:h-72 lg:h-80 transition-all duration-300 ${
+        className={`card w-full md:w-80 lg:w-96 h-40 md:h-48 lg:h-56 transition-all duration-300 ${
           isOpen
             ? "bg-gradient-subtle border-2 border-secondary shadow-warm-lg"
-            : "bg-base-200 border-2 border-primary/30 hover:border-primary cursor-pointer card-hover shadow-warm"
+            : "bg-gradient-to-br from-primary to-secondary border-2 border-primary shadow-lg hover:shadow-xl cursor-pointer transform hover:scale-105 active:scale-95"
         } ${className}`}
         onClick={onSelect}
         {...props}
@@ -31,7 +31,7 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-full gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <div className="w-16 h-16 rounded-full bg-base-100/20 backdrop-blur-sm flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -47,7 +47,7 @@ export const GameCard = forwardRef<HTMLDivElement, GameCardProps>(
                   />
                 </svg>
               </div>
-              <p className="text-sm font-medium text-primary">
+              <p className="text-sm font-medium text-primary-content">
                 Tap to reveal
               </p>
             </div>

@@ -4,14 +4,13 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { GameThemeSlug, Card, Player } from "@/types";
 import { Button } from "@/components/button";
-import { GameCard } from "@/components/game-card";
 import { CardStack } from "@/components/card-stack";
 import { GameGrid } from "@/components/game-grid";
 import { PlayerList } from "@/components/player-list";
 import { GameStats } from "@/components/game-stats";
 import { GameHeader } from "@/components/game-header";
 import { ForceStopButton } from "@/components/force-stop-button";
-import { gameCardContents, gameThemes } from "@/configs/contents";
+import { gameCardContents } from "@/configs/contents";
 
 // Helper Functions
 function shuffleArray<T>(array: T[]): T[] {
@@ -82,7 +81,6 @@ export default function GameRoomPage() {
   const router = useRouter();
 
   // Game setup state
-  const [theme, setTheme] = useState<GameThemeSlug>("family");
   const [players, setPlayers] = useState<Player[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 
@@ -101,41 +99,40 @@ export default function GameRoomPage() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   // Initialize game from session data
-  const initializeGame = (sessionData: {
-    theme: GameThemeSlug;
-    players: string[];
-  }) => {
-    // Create Player objects
-    const playerObjects: Player[] = sessionData.players.map((name, index) => ({
-      id: generatePlayerId(index),
-      name: name,
-    }));
-
-    // Load cards for theme
-    const themeCards = gameCardContents[sessionData.theme];
-
-    // Separate opening, closing, and convo cards
-    const opening = themeCards.find((card) => card.isOpening);
-    const closing = themeCards.find((card) => card.isClosing);
-    const convoCards = themeCards.filter(
-      (card) => !card.isOpening && !card.isClosing
-    );
-
-    // Shuffle convo cards
-    const shuffled = shuffleArray(convoCards);
-
-    // Set state
-    setTheme(sessionData.theme);
-    setPlayers(playerObjects);
-    setOpeningCard(opening || null);
-    setClosingCard(closing || null);
-    setCardsOnStack(shuffled);
-    setPhase("opening");
-    setIsInitialized(true);
-  };
-
-  // Session validation on mount
   useEffect(() => {
+    const initializeGame = (sessionData: {
+      theme: GameThemeSlug;
+      players: string[];
+    }) => {
+      // Create Player objects
+      const playerObjects: Player[] = sessionData.players.map((name, index) => ({
+        id: generatePlayerId(index),
+        name: name,
+      }));
+
+      // Load cards for theme
+      const themeCards = gameCardContents[sessionData.theme];
+
+      // Separate opening, closing, and convo cards
+      const opening = themeCards.find((card) => card.isOpening);
+      const closing = themeCards.find((card) => card.isClosing);
+      const convoCards = themeCards.filter(
+        (card) => !card.isOpening && !card.isClosing
+      );
+
+      // Shuffle convo cards
+      const shuffled = shuffleArray(convoCards);
+
+      // Set state
+      setPlayers(playerObjects);
+      setOpeningCard(opening || null);
+      setClosingCard(closing || null);
+      setCardsOnStack(shuffled);
+      setPhase("opening");
+      setIsInitialized(true);
+    };
+
+    // Session validation and initialization
     const sessionData = localStorage.getItem("gameSession");
     if (!sessionData) {
       router.push("/");
@@ -170,9 +167,11 @@ export default function GameRoomPage() {
     setCardsOnStack(remainingCards);
   };
 
-  // Select card
+  // Select card (only allow if no card is currently selected)
   const selectCard = (card: Card) => {
-    setSelectedCard(card);
+    if (selectedCard === null) {
+      setSelectedCard(card);
+    }
   };
 
   // End turn
@@ -230,18 +229,34 @@ export default function GameRoomPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <GameHeader onExit={handleExit} roomName="SambungRasa" />
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-primary/8 via-base-100 to-secondary/5">
+      <GameHeader onExit={handleExit} />
 
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[250px_1fr_250px] gap-4 p-4">
-        {/* Left Sidebar */}
-        <div className="flex flex-col gap-4">
+      <div className="flex-1 flex flex-col lg:flex-row gap-4 p-4">
+        {/* Mobile/Tablet: Card Stack */}
+        <div className="lg:hidden">
           <CardStack remainingCount={cardsOnStack.length} />
+        </div>
+
+        {/* Mobile/Tablet: Player List */}
+        <div className="lg:hidden">
           <PlayerList players={players} currentPlayerIndex={currentPlayerIndex} />
         </div>
 
-        {/* Center */}
-        <div className="flex items-center justify-center">
+        {/* Desktop: Left Sidebar */}
+        <aside className="hidden lg:flex lg:flex-col lg:w-[300px] gap-4">
+          <CardStack remainingCount={cardsOnStack.length} />
+          <PlayerList players={players} currentPlayerIndex={currentPlayerIndex} />
+          <GameStats
+            closedCardsCount={closedCards.length}
+            deckCardsCount={cardsOnDeck.length}
+            cardsInStackCount={cardsOnStack.length}
+          />
+          <ForceStopButton onForceStop={forceStopSession} />
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 flex items-center justify-center min-h-[400px] bg-gradient-radial from-primary/5 via-transparent to-transparent rounded-xl">
           {phase === "opening" && (
             <OpeningCardDisplay card={openingCard} onBegin={startPlaying} />
           )}
@@ -256,22 +271,26 @@ export default function GameRoomPage() {
           {phase === "closing" && (
             <ClosingCardDisplay card={closingCard} onBackToMenu={backToMenu} />
           )}
-        </div>
+        </main>
 
-        {/* Right Sidebar */}
-        <div className="flex flex-col gap-4">
-          <ForceStopButton onForceStop={forceStopSession} />
+        {/* Mobile/Tablet: Statistics */}
+        <div className="lg:hidden">
           <GameStats
             closedCardsCount={closedCards.length}
             deckCardsCount={cardsOnDeck.length}
             cardsInStackCount={cardsOnStack.length}
           />
         </div>
+
+        {/* Mobile/Tablet: End Game Button */}
+        <div className="lg:hidden">
+          <ForceStopButton onForceStop={forceStopSession} />
+        </div>
       </div>
 
       {/* Bottom Action Bar */}
       {selectedCard && phase === "playing" && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-base-200/90 backdrop-blur-sm border-t border-primary/20">
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-base-200/90 backdrop-blur-sm border-t border-primary/20 shadow-lg">
           <div className="max-w-md mx-auto">
             <Button
               variant="primary"

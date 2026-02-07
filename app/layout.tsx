@@ -34,9 +34,7 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${merriweather.variable} antialiased min-h-screen flex flex-col bg-gradient-game`}
       >
-        <ModalProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </ModalProvider>
+        <ModalProvider>{children}</ModalProvider>
       </body>
     </html>
   );
