@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import type { GameThemeSlug, Card, Player } from "@/types";
+import { useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import type { Card } from "@/types";
 import { Button } from "@/components/button";
 import { CardStack } from "@/components/card-stack";
 import { GameGrid } from "@/components/game-grid";
@@ -10,27 +10,10 @@ import { PlayerList } from "@/components/player-list";
 import { GameStats } from "@/components/game-stats";
 import { GameHeader } from "@/components/game-header";
 import { ForceStopButton } from "@/components/force-stop-button";
-import { gameCardContents } from "@/configs/contents";
-
-// Helper Functions
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function generatePlayerId(index: number): string {
-  return `player-${index + 1}-${Date.now()}`;
-}
-
-function calculateColumns(playerCount: number): 2 | 3 | 4 {
-  if (playerCount === 2) return 2;
-  if (playerCount === 3) return 3;
-  return 2; // For 4 players, use 2 columns (2x2 grid)
-}
+import { useGameSessionStore } from "@/store/game-session-store";
+import { usePlayerStore } from "@/store/player-store";
+import { useCardStore } from "@/store/card-store";
+import { calculateColumns } from "@/lib/game-helpers";
 
 // Phase Display Components
 function OpeningCardDisplay({
@@ -79,140 +62,91 @@ function ClosingCardDisplay({
 
 export default function GameRoomPage() {
   const router = useRouter();
+  const params = useParams();
+  const sessionIdFromUrl = params.sessionId as string;
 
-  // Game setup state
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  // Read from stores using selectors
+  const sessionIdFromStore = useGameSessionStore((s) => s.sessionId);
+  const phase = useGameSessionStore((s) => s.phase);
+  const openingCard = useGameSessionStore((s) => s.openingCard);
+  const closingCard = useGameSessionStore((s) => s.closingCard);
+  const isInitialized = useGameSessionStore((s) => s.isInitialized);
 
-  // Card management state
-  const [cardsOnStack, setCardsOnStack] = useState<Card[]>([]);
-  const [cardsOnDeck, setCardsOnDeck] = useState<Card[]>([]);
-  const [closedCards, setClosedCards] = useState<Card[]>([]);
-  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const players = usePlayerStore((s) => s.players);
+  const currentPlayerIndex = usePlayerStore((s) => s.currentPlayerIndex);
 
-  // Game flow state
-  const [phase, setPhase] = useState<"opening" | "playing" | "closing">(
-    "opening"
-  );
-  const [openingCard, setOpeningCard] = useState<Card | null>(null);
-  const [closingCard, setClosingCard] = useState<Card | null>(null);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const cardsOnStack = useCardStore((s) => s.cardsOnStack);
+  const cardsOnDeck = useCardStore((s) => s.cardsOnDeck);
+  const closedCards = useCardStore((s) => s.closedCards);
+  const selectedCard = useCardStore((s) => s.selectedCard);
 
-  // Initialize game from session data
+  // Get actions from stores
+  const { startPlaying, clearSession, startClosing } = useGameSessionStore();
+  const { advanceToNextPlayer } = usePlayerStore();
+  const { selectCard, drawCardsToTable, moveSelectedCardToClosed } =
+    useCardStore();
+
+  // Validate session on mount
   useEffect(() => {
-    const initializeGame = (sessionData: {
-      theme: GameThemeSlug;
-      players: string[];
-    }) => {
-      // Create Player objects
-      const playerObjects: Player[] = sessionData.players.map((name, index) => ({
-        id: generatePlayerId(index),
-        name: name,
-      }));
+    // Wait for store rehydration
+    if (!isInitialized) return;
 
-      // Load cards for theme
-      const themeCards = gameCardContents[sessionData.theme];
-
-      // Separate opening, closing, and convo cards
-      const opening = themeCards.find((card) => card.isOpening);
-      const closing = themeCards.find((card) => card.isClosing);
-      const convoCards = themeCards.filter(
-        (card) => !card.isOpening && !card.isClosing
-      );
-
-      // Shuffle convo cards
-      const shuffled = shuffleArray(convoCards);
-
-      // Set state
-      setPlayers(playerObjects);
-      setOpeningCard(opening || null);
-      setClosingCard(closing || null);
-      setCardsOnStack(shuffled);
-      setPhase("opening");
-      setIsInitialized(true);
-    };
-
-    // Session validation and initialization
-    const sessionData = localStorage.getItem("gameSession");
-    if (!sessionData) {
-      router.push("/");
+    // Check if URL sessionId matches store sessionId
+    if (sessionIdFromUrl !== sessionIdFromStore) {
+      // Mismatch -> redirect to session not found page
+      router.push(`/game/${sessionIdFromUrl}/not-found`);
       return;
     }
+  }, [sessionIdFromUrl, sessionIdFromStore, isInitialized, router]);
 
-    try {
-      const parsed = JSON.parse(sessionData);
-      if (!parsed.theme || !parsed.players || parsed.players.length < 2) {
-        router.push("/");
-        return;
-      }
-      initializeGame(parsed);
-    } catch (error) {
-      console.error("Failed to parse session data:", error);
-      router.push("/");
-    }
-  }, [router]);
-
-  // Start playing phase
-  const startPlaying = () => {
-    setPhase("playing");
+  // Handle starting playing phase
+  const handleStartPlaying = () => {
+    startPlaying();
+    // Auto-draw cards based on player count
     drawCardsToTable(players.length);
   };
 
-  // Draw cards to table
-  const drawCardsToTable = (count: number) => {
-    const cardsToDraw = cardsOnStack.slice(0, count);
-    const remainingCards = cardsOnStack.slice(count);
-
-    setCardsOnDeck((prev) => [...prev, ...cardsToDraw]);
-    setCardsOnStack(remainingCards);
+  // Handle card selection
+  const handleSelectCard = (card: Card) => {
+    if (selectedCard !== null) return; // Guard: only one selection per turn
+    selectCard(card);
   };
 
-  // Select card (only allow if no card is currently selected)
-  const selectCard = (card: Card) => {
-    if (selectedCard === null) {
-      setSelectedCard(card);
-    }
-  };
-
-  // End turn
-  const endTurn = () => {
+  // Handle end turn
+  const handleEndTurn = () => {
     if (!selectedCard) return;
 
-    // Move selected card to closed cards
-    setClosedCards((prev) => [...prev, selectedCard]);
+    // Move card to closed and clear selection
+    moveSelectedCardToClosed();
 
-    // Remove from deck
-    setCardsOnDeck((prev) => prev.filter((c) => c.id !== selectedCard.id));
-
-    // Draw 1 new card if available
+    // Draw 1 new card if stack has cards
     if (cardsOnStack.length > 0) {
       drawCardsToTable(1);
-    } else if (cardsOnDeck.length === 1) {
-      // Last card on deck, no cards in stack -> prepare closing
-      setPhase("closing");
     }
 
     // Advance to next player
-    setCurrentPlayerIndex((prev) => (prev + 1) % players.length);
+    advanceToNextPlayer();
 
-    // Clear selection
-    setSelectedCard(null);
+    // Check if should transition to closing
+    if (cardsOnStack.length === 0 && cardsOnDeck.length === 1) {
+      startClosing();
+    }
+  };
+
+  // Handle force stop
+  const handleForceStop = () => {
+    clearSession();
+    router.push("/");
   };
 
   // Handle exit
   const handleExit = () => {
-    forceStopSession();
-  };
-
-  // Force stop session
-  const forceStopSession = () => {
-    localStorage.removeItem("gameSession");
-    router.push("/");
+    handleForceStop();
   };
 
   // Back to menu
   const backToMenu = () => {
-    localStorage.removeItem("gameSession");
+    clearSession();
     router.push("/");
   };
 
@@ -252,19 +186,22 @@ export default function GameRoomPage() {
             deckCardsCount={cardsOnDeck.length}
             cardsInStackCount={cardsOnStack.length}
           />
-          <ForceStopButton onForceStop={forceStopSession} />
+          <ForceStopButton onForceStop={handleForceStop} />
         </aside>
 
         {/* Main Content Area */}
         <main className="flex-1 flex items-center justify-center min-h-[400px] bg-gradient-radial from-primary/5 via-transparent to-transparent rounded-xl">
           {phase === "opening" && (
-            <OpeningCardDisplay card={openingCard} onBegin={startPlaying} />
+            <OpeningCardDisplay
+              card={openingCard}
+              onBegin={handleStartPlaying}
+            />
           )}
           {phase === "playing" && (
             <GameGrid
               cards={cardsOnDeck}
               selectedCardId={selectedCard?.id ?? null}
-              onCardSelect={selectCard}
+              onCardSelect={handleSelectCard}
               columns={calculateColumns(players.length)}
             />
           )}
@@ -284,7 +221,7 @@ export default function GameRoomPage() {
 
         {/* Mobile/Tablet: End Game Button */}
         <div className="lg:hidden">
-          <ForceStopButton onForceStop={forceStopSession} />
+          <ForceStopButton onForceStop={handleForceStop} />
         </div>
       </div>
 
@@ -296,7 +233,7 @@ export default function GameRoomPage() {
               variant="primary"
               size="lg"
               className="w-full"
-              onClick={endTurn}
+              onClick={handleEndTurn}
             >
               Akhiri Giliran
             </Button>

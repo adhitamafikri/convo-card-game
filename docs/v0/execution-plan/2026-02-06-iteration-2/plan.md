@@ -31,7 +31,13 @@ Actions:
 Status: **Not Done**
 Actions:
 
-- Create core `GameSessionContext` for manage game states and actions
-- Create hook `useGameSession` to access the states and actions from the context
-- Wiring up contexts and hooks to the whole application
-- TBD
+- Install zustand
+- Create `game-session-store.ts`, `card-store.ts`, `player-store.ts` that:
+  - Manages active game session state
+  - Manages selected game theme
+  - Manages deck
+  - Manages player data and turns
+  - Manages game session stats
+- Wire up the store to the components
+- Implement continue game mechanic
+- Implement `/game/[sessionId]/room` URL fragment as the game room URL. Replacing the old `/game-room` one, making it impossible for the players to access this page if they have no active game sessions
